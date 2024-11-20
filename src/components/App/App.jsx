@@ -4,12 +4,14 @@ import { fetchTasks } from "../../redux/operations";
 import { AppBar } from "../AppBar/AppBar";
 import { TaskForm } from "../TaskForm/TaskForm";
 import { TaskList } from "../TaskList/TaskList";
+// 1. Імпортуємо функції-селектори
+import { selectIsLoading, selectError } from "../../redux/selectors";
 import css from "./App.module.css";
 
 export default function App() {
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.tasks.isLoading);
-  const error = useSelector((state) => state.tasks.error);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
 
   useEffect(() => {
     dispatch(fetchTasks());
