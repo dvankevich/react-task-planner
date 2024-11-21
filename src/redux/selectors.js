@@ -1,4 +1,5 @@
 // src/redux/selectors.js
+import { createSelector } from "@reduxjs/toolkit";
 
 export const selectTasks = (state) => state.tasks.items;
 export const selectIsLoading = (state) => state.tasks.isLoading;
@@ -20,8 +21,8 @@ export const selectVisibleTasks = (state) => {
   }
 };
 
-export const selectTaskCount = (state) => {
-  const tasks = selectTasks(state);
+export const selectTaskCount = createSelector([selectTasks], (tasks) => {
+  console.log("Calculating task count. Now memoized!");
 
   return tasks.reduce(
     (count, task) => {
@@ -34,4 +35,20 @@ export const selectTaskCount = (state) => {
     },
     { active: 0, completed: 0 }
   );
-};
+});
+
+// export const selectTaskCount = (state) => {
+//   const tasks = selectTasks(state);
+//   console.log("Calculating task count");
+//   return tasks.reduce(
+//     (count, task) => {
+//       if (task.completed) {
+//         count.completed += 1;
+//       } else {
+//         count.active += 1;
+//       }
+//       return count;
+//     },
+//     { active: 0, completed: 0 }
+//   );
+// };
